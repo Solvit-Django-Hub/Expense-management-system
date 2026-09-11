@@ -13,7 +13,6 @@ class ProfileForm(forms.ModelForm):
             'dob',
         ]
 
-
     def clean_full_name(self):
         full_name = self.cleaned_data['full_name'].strip()
 
