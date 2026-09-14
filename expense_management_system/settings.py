@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'categories',
     'transactions',
     'reports',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
