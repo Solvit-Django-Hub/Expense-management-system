@@ -2,7 +2,7 @@ from django.http import request
 from django.shortcuts import render
 from .models import User
 from users.forms import ProfileForm
-from users.serializers import Serializer
+from users.serializers import ProfileSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -15,14 +15,14 @@ def register_user(request):
 
     if request.method == "GET":
         users = User.objects.all()
-        serializer = Serializer(users, many=True)
+        serializer = ProfileSerializer(users, many=True)
 
         return Response(
             serializer.data,
             status=status.HTTP_200_OK
         )
 
-    serializer = Serializer(data=request.data)
+    serializer = ProfileSerializer(data=request.data)
 
     if serializer.is_valid():
         serializer.save()
@@ -42,8 +42,10 @@ class ProfileView(APIView):
     def get(self, request):
         return Response({
             "id": request.user.id,
-            "fullname": request.user.full_name,
+            "fullname": request.user.get_full_name(),
             "email": request.user.email,
+            "phone_number": request.user.profile.phone_number,
+            "dob": request.user.profile.dob,
             })
 
     
