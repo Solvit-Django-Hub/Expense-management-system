@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.core.validators import MinValueValidator
 from decimal import Decimal
 
@@ -11,7 +11,7 @@ class Transaction(models.Model):
         ('EXPENSE', 'Expense'),
     ]
 
-    user = models.ForeignKey( User, on_delete=models.CASCADE, related_name='transactions')
+    user = models.ForeignKey( settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='transactions')
     category = models.ForeignKey('categories.Category', on_delete=models.PROTECT, related_name='transactions')
     transaction_type = models.CharField( max_length=10, choices=TRANSACTION_TYPES)
     amount = models.DecimalField( max_digits=12, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
